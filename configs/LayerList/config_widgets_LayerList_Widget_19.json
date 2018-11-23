@@ -1,0 +1,23 @@
+{
+  "showLegend": true,
+  "expandAllLayersByDefault": false,
+  "contextMenu": {
+    "ZoomTo": true,
+    "Transparency": true,
+    "EnableOrDisablePopup": true,
+    "MoveupOrMovedown": true,
+    "OpenAttributeTable": true,
+    "DescriptionOrShowItemDetailsOrDownload": true
+  },
+  "layerOptions": {
+    "geomap_dist_3107": {
+      "display": false
+    },
+    "geomap_dist_5632": {
+      "display": false
+    },
+    "geomap_dist_9843": {
+      "display": false
+    }
+  }
+}

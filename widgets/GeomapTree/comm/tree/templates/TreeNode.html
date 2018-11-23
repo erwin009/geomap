@@ -1,0 +1,13 @@
+<div class="dijitTreeNode" role="presentation">
+    <div data-dojo-attach-point="rowNode" class="dijitTreeRow" role="presentation">
+        <img src="${_blankGif}" alt="" data-dojo-attach-point="expandoNode" class="dijitTreeExpando" role="presentation"/>
+        <span data-dojo-attach-point="expandoNodeText" class="dijitExpandoText" role="presentation"></span>
+        <span data-dojo-attach-point="contentNode" class="dijitTreeContent" role="presentation">
+            <img src="${_blankGif}" alt="" data-dojo-attach-point="iconNode" class="dijitIcon dijitTreeIcon" role="presentation"/>
+            <input data-dojo-attach-point="check_input" type="checkbox" data-dojo-attach-event="onClick:_onCheckBoxClick" 
+　　　　　　　　   data-dojo-type="dijit.form.CheckBox"/>
+            <span data-dojo-attach-point="labelNode" class="dijitTreeLabel" role="treeitem" tabindex="-1" aria-selected="false"></span>
+        </span>
+    </div>
+    <div data-dojo-attach-point="containerNode" role="presentation" style="display: none;"></div>
+</div>

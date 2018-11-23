@@ -1,0 +1,12 @@
+.jimu-widget-deploymap div:first-child{
+  color: red;
+}
+
+.jimu-widget-deploymap p {
+	font-size: 16px;
+	margin-top: 8px;
+}
+.jimu-widget-deploymap .buttonBar {
+	text-align: center;
+	margin-bottom: 30px;
+}

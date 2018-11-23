@@ -1,0 +1,53 @@
+{
+  "analysisTools": [
+    {
+      "name": "AggregatePoints",
+      "showHelp": true,
+      "showCredits": false,
+      "showChooseExtent": true,
+      "showReadyToUseLayers": false,
+      "allowToExport": false,
+      "returnFeatureCollection": false,
+      "toolLabel": "聚合点"
+    },
+    {
+      "name": "CalculateDensity",
+      "showHelp": true,
+      "showCredits": false,
+      "showChooseExtent": true,
+      "showReadyToUseLayers": false,
+      "allowToExport": false,
+      "returnFeatureCollection": false,
+      "toolLabel": "计算密度"
+    },
+    {
+      "name": "CreateBuffers",
+      "showHelp": true,
+      "showCredits": false,
+      "showChooseExtent": true,
+      "showReadyToUseLayers": false,
+      "allowToExport": false,
+      "returnFeatureCollection": false,
+      "toolLabel": "创建缓冲区"
+    },
+    {
+      "name": "ExtractData",
+      "showHelp": true,
+      "showCredits": false,
+      "showChooseExtent": true,
+      "showReadyToUseLayers": false,
+      "allowToExport": false,
+      "toolLabel": "提取数据"
+    },
+    {
+      "name": "InterpolatePoints",
+      "showHelp": true,
+      "showCredits": false,
+      "showChooseExtent": true,
+      "showReadyToUseLayers": false,
+      "allowToExport": false,
+      "returnFeatureCollection": false,
+      "toolLabel": "插值点"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+<div>
+  <div class="buttonBar"> 
+     <div data-dojo-type="dijit/form/DropDownButton" data-dojo-id="createLayer">
+        <span>新建</span><!-- Text for the button -->
+        <!-- The dialog portion -->
+        <div data-dojo-type="dijit/TooltipDialog" data-dojo-id="ttDialog">
+            <strong><label for="email" style="display:inline-block;width:100px;">部署图名称:</label></strong>
+            <div data-dojo-type="dijit/form/TextBox" id="layerName"></div>
+            <br />                
+            <button data-dojo-type="dijit/form/Button" data-dojo-id="addButton" data-dojo-attach-event="click:_onBtnAddDeployMap">确定</button>
+        </div>
+    </div>
+    <button  data-dojo-type="dijit/form/Button" data-dojo-id="deleteButton" data-dojo-attach-event="click:_onBtnDeleteDeployMap">删除</button>
+  </div>
+  <hr>
+  <div id="list">
+  </div> 
+</div>
