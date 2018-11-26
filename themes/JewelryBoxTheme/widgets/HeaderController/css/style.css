@@ -24,6 +24,8 @@
 .jimu-widget-header-controller .jimu-title{
   text-align: center;
   height: 100%;
+  color: #005fa2;
+  font-size: 18px !important;
 }
 
 .jimu-widget-header-controller .jimu-subtitle{
@@ -51,6 +53,7 @@
   opacity: 0.6;
   text-align: center;
   border-right: 1px solid #323e4f;
+  background-color: #005fa2;
 }
 .jimu-widget-header-controller .icon-node img{
   height: 24px;
