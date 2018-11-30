@@ -30,6 +30,9 @@ define([
   'dojo/on',
   'dijit/popup',
   'dijit/form/ValidationTextBox',
+  'dgrid/OnDemandList',   // 添加打印模板缩略图的引用
+  'dgrid/Selection',
+  'dojo/store/Memory', 
   'dijit/form/Form',
   'dijit/form/Select',
   'dijit/form/NumberTextBox',
@@ -40,8 +43,7 @@ define([
   'dijit/TooltipDialog',
   'dijit/form/RadioButton',
   'dijit/form/SimpleTextarea',
-  'esri/IdentityManager',
-  'dojo/store/Memory'
+  'esri/IdentityManager'   
 ], function(
   declare,
   _WidgetBase,
@@ -73,7 +75,8 @@ define([
   utils,
   on,
   popup,
-  ValidationTextBox) {
+  ValidationTextBox,
+  OnDemandList, Selection, Memory) {
   // Main print dijit
   var PrintDijit = declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
     widgetsInTemplate: true,
@@ -97,6 +100,8 @@ define([
     _showSettings: false,
 
     _currentTemplateInfo: null,
+
+    _templateList: null,
 
     postCreate: function() {
       this.inherited(arguments);
@@ -152,11 +157,13 @@ define([
           return all([this._getPrintTaskInfo(), this._getLayerTemplatesInfo()])
             .then(lang.hitch(this, function(results) {
               var taksInfo = results[0],
-                templatesInfo = results[1];
+                templatesInfo = results[1];   // 打印模板信息列表
+                console.log('打印模板信息变量……');
+                console.log(templatesInfo);
               if (templatesInfo && !templatesInfo.error) {
                 var parameters = templatesInfo && templatesInfo.results;
                 if (parameters && parameters.length > 0) {
-                  array.some(parameters, lang.hitch(this, function(p) {
+                  array.some(parameters, lang.hitch(this, function(p) {   // 下面的代码要修改，以适应自己的模板定制
                     return p && p.paramName === 'Output_JSON' ?
                       this.templateInfos = p.value : false;
                   }));
@@ -174,7 +181,9 @@ define([
                 this._handleError(taksInfo.error);
               } else {
                 this._handlePrintInfo(taksInfo);
-              }
+              }  
+              // 初始化打印模板选取列表
+              this._createPrintTemplateList();              
             }));
         })).always(lang.hitch(this, function() {
           this.shelter.hide();
@@ -199,7 +208,119 @@ define([
           '_createOperationalLayers',
           lang.hitch(this, '_excludeInvalidLegend')
         );
+      }          
+    },
+
+    // 获取打印模板数据
+    _getPrintTemplateData: function() {
+      var def = new Deferred();
+      // SAMPLE DATA
+      var SAMPLEDATA = [];
+      console.log(this.templateNames);
+      for(var i = 0; i < this.templateNames.length; i++){
+        var obj = {
+          'id': i,
+          'title': this.templateNames[i],
+          'thumbnailImg': 'http://10.90.128.167:3000/images/' + this.templateNames[i] + '.jpg'
+        };
+        SAMPLEDATA.push(obj);
+
       }
+      // var SAMPLEDATA = [{
+      //   'id': 0,
+      //   'title': 'A3 Landscape',
+      //   'thumbnailImg': 'http://placehold.it/120x90'
+      // }, {
+      //   'id': 1,
+      //   'title': 'A3 Portrait',
+      //   'thumbnailImg': 'http://placehold.it/120x90'
+      // }, {
+      //   'id': 2,
+      //   'title': 'A4 Landscape',
+      //   'thumbnailImg': 'http://placehold.it/120x90'
+      // }, {
+      //   'id': 3,
+      //   'title': 'A4 Portrait',
+      //   'thumbnailImg': 'http://placehold.it/120x90'
+      // }, {
+      //   'id': 4,
+      //   'title': 'Letter ANSI A Landscape',
+      //   'thumbnailImg': 'http://placehold.it/120x90'
+      // }, {
+      //   'id': 5,
+      //   'title': 'Letter ANSI A Portrait',
+      //   'thumbnailImg': 'http://placehold.it/120x90'
+      // }, {
+      //   'id': 6,
+      //   'title': 'Tabloid ANSI B Landscape',
+      //   'thumbnailImg': 'http://placehold.it/120x90'
+      // }, {
+      //   'id': 7,
+      //   'title': 'Tabloid ANSI B Portrait',
+      //   'thumbnailImg': 'http://placehold.it/120x90'
+      // }];
+      console.log(SAMPLEDATA);
+      def.resolve(new Memory({
+        data: SAMPLEDATA
+      }));
+      console.log(def);
+      return def;
+    },
+
+    // 初始化打印模板列表，将获取的数据填充
+    _createPrintTemplateList: function() {
+      console.log('create Print Templates');
+      var thiswidget = this;
+      this._getPrintTemplateData().then(lang.hitch(this, function(datastore) {
+        console.log(datastore);
+        thiswidget._templateList = new (declare([OnDemandList, Selection]))({
+          'store': datastore,
+          'selectionMode': 'single',
+          'renderRow': lang.hitch(this, function (object, options) {
+            return this._createPrintTemplateItem(object);
+          })
+        }, this.ListNode);
+        console.log(thiswidget._templateList);
+        thiswidget._templateList.startup();
+
+        thiswidget._templateList.on('.dgrid-row:click', lang.hitch(this, function(evt) {
+          var row = thiswidget._templateList.row(evt);
+          console.log(row);
+          // 设置选中的打印模板
+          this.layoutDijit.set('value', row.data.title);
+          this.onLayoutChange(row.data.title);
+        }));
+      }));
+    },
+
+    // 创建打印模板列表项
+    _createPrintTemplateItem: function(featureObj) {
+      var listItemRoot = document.createElement('DIV');
+      listItemRoot.className = 'list-item';
+      if(featureObj) {
+        var thumbnailImgWrapper, thumbnailImg, listItemTitle;
+        // Create thumbnail
+        if(featureObj.thumbnailImg) {
+          thumbnailImgWrapper = document.createElement('div');
+          thumbnailImgWrapper.className = 'thumbnail-wrapper';
+          thumbnailImg = document.createElement('img');
+          thumbnailImg.src = featureObj.thumbnailImg;
+          thumbnailImgWrapper.appendChild(thumbnailImg);
+          listItemRoot.appendChild(thumbnailImgWrapper);
+        }
+        // Create title
+        if(featureObj.title && typeof featureObj.title === 'string') {
+          listItemTitle = document.createElement('H4');
+          listItemTitle.innerHTML = featureObj.title;
+          listItemRoot.appendChild(listItemTitle);
+          if(thumbnailImg)
+            thumbnailImg.alt = featureObj.title;
+        }
+      } else {
+        listItemRoot.innerHTML = 'NO DATA AVAILABLE';
+      }
+
+      return listItemRoot;
     },
 
     _hasLabelLayer: function() {
@@ -366,10 +487,11 @@ define([
     },
 
     onLayoutChange: function(newValue) {
+      console.log("新的值是：" + newValue);
       var pos = this.templateNames && this.templateNames.indexOf(newValue);
       if (pos > -1) {
         html.empty(this.customTextElementsTable);
-        var templateInfo = this._currentTemplateInfo = this.templateInfos[pos];
+        var templateInfo = this._currentTemplateInfo = this.templateInfos[pos];    // this.templateInfos变量存储了所有的打印模板对象
         var customTextElements =  lang.getObject(
           "layoutOptions.customTextElements",
           false, templateInfo);
@@ -459,7 +581,9 @@ define([
       }
     },
 
+    // 点击“高级”按钮后的响应函数
     showSettings: function(event) {
+      console.log(this.templateInfos);
       event.preventDefault();
       event.stopPropagation();
       if (this._showSettings) {
@@ -474,6 +598,7 @@ define([
       }
     },
 
+    // 初始化打印微件的页面组件信息
     _handlePrintInfo: function(rData) {
       if (!rData.isGPPrint) {
         domStyle.set(this.layoutDijit.domNode.parentNode.parentNode, 'display', 'none');
@@ -550,6 +675,7 @@ define([
       }
     },
 
+    // 点击“打印”按钮后触发的函数
     print: function() {
       if (this.printSettingsFormDijit.isValid()) {
         var form = this.printSettingsFormDijit.get('value');
@@ -577,7 +703,7 @@ define([
           cteArray.push({ Date: new Date().toLocaleString(locale) });
         }
 
-        var templateInfo = this._currentTemplateInfo;
+        var templateInfo = this._currentTemplateInfo;    // 这个变量很关键，决定了当前打印的模板
         var hasAuthorText = lang.getObject('layoutOptions.hasAuthorText', false, templateInfo);
         var hasCopyrightText = lang.getObject('layoutOptions.hasCopyrightText',
           false, templateInfo);

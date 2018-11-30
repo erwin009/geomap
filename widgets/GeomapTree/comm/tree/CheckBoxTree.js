@@ -37,8 +37,8 @@ define([
                     url = url.substr(0, url.indexOf('WMTSServer') + 10);
                     var serviceName = serviceName  = pb_info.serviceConfig.map_type.map_service_name;
                     console.log(serviceName);
-                    this.addWMTSLayer(url,serviceName);
-                    // this.addDzyLayer(url);
+                    //this.addWMTSLayer(url,serviceName);
+                    this.addDzyLayer(url);
                 } else if(url.indexOf('MapServer') > 0){
                     url = url.substr(0, url.indexOf('MapServer') + 9);
                     this.addMapLayer(url);
@@ -67,6 +67,7 @@ define([
         },
         addDzyLayer: function(url) {
             var dzyLayer = new DZYLayer();
+            console.log(dzyLayer);
             this.tree._map.addLayer(dzyLayer);
             this.layer = dzyLayer;
         },

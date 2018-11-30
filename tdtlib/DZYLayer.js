@@ -3,7 +3,7 @@ define(["dojo/_base/declare",
     function (declare) {
         return declare(esri.layers.TiledMapServiceLayer, {
             constructor: function () {
-                this.spatialReference = new esri.SpatialReference({ wkid: 4326 });
+                this.spatialReference = new esri.SpatialReference({ wkid: 4490 });
                 this.initialExtent = (this.fullExtent = new esri.geometry.Extent(-180.0, -90.0, 180.0, 90.0, this.spatialReference));
                 this.tileInfo = new esri.layers.TileInfo({
                     "rows": 256,
@@ -14,7 +14,7 @@ define(["dojo/_base/declare",
                         "y": 90
                     },
                     "spatialReference": {
-                        "wkid": 4326
+                        "wkid": 4490
                     },
                     "lods": [
                         { "level": 2, "resolution": 0.3515625, "scale": 147748796.52937502 },
@@ -41,7 +41,12 @@ define(["dojo/_base/declare",
             },
             getTileUrl: function (level, row, col) {
                 // return "http://t" + col % 8 + ".tianditu.com/vec_c/wmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=vec&STYLE=default&TILEMATRIXSET=c&TILEMATRIX=" + level + "&TILEROW=" + row + "&TILECOL=" + col + "&FORMAT=tiles";
-                return "http://10.90.112.24:6163/igs/rest/ogc/drc_dz_50/WMTSServer/1.0.0/drc_dz_50/default/EPSG:4326_drc_dz_50_028mm_GB/EPSG:4326_drc_dz_50_028mm_GB:" + (level -1) + "/" + row + "/" + col + ".png";
+                var l = level +1;
+                var r = row;
+                var c = col;
+                return "http://10.90.128.100:6160/igs/rest/ogc/drc_dz_50/WMTSServer/1.0.0/drc_dz_50/default/EPSG:4326_drc_dz_50_028mm_GB/" + l + "/" + r + "/" + c + ".png";
+
+
 
             }
         });

@@ -1,5 +1,5 @@
 {
-  "serviceURL": "http://10.90.128.167/arcgis/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
+  "serviceURL": "http://10.90.128.167/server/rest/services/Utilities/PrintingTools/GPServer/Export%20Web%20Map%20Task",
   "defaultTitle": "工作部署图",
   "defaultAuthor": "地调",
   "defaultCopyright": "",
