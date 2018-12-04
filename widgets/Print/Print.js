@@ -606,7 +606,7 @@ define([
         domStyle.set(this.advancedButtonDijit, 'display', 'none');
       } else {
         var data = rData.data;
-        domStyle.set(this.layoutDijit.domNode.parentNode.parentNode, 'display', '');
+        domStyle.set(this.layoutDijit.domNode.parentNode.parentNode, 'display', 'none');
         domStyle.set(this.formatDijit.domNode.parentNode.parentNode, 'display', '');
         domStyle.set(this.advancedButtonDijit, 'display', '');
 

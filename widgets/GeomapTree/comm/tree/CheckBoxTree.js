@@ -37,8 +37,8 @@ define([
                     url = url.substr(0, url.indexOf('WMTSServer') + 10);
                     var serviceName = serviceName  = pb_info.serviceConfig.map_type.map_service_name;
                     console.log(serviceName);
-                    //this.addWMTSLayer(url,serviceName);
-                    this.addDzyLayer(url);
+                    this.addWMTSLayer(url,serviceName);
+                    //this.addDzyLayer(url);
                 } else if(url.indexOf('MapServer') > 0){
                     url = url.substr(0, url.indexOf('MapServer') + 9);
                     this.addMapLayer(url);
@@ -59,6 +59,7 @@ define([
         addWMTSLayer: function(url,service_name){          
             // var wmtsLayer = new WMTSLayer("https://gibs.earthdata.nasa.gov/wmts/epsg4326/best", options);
             var wmtsLayer = new WMTSLayer(url);
+            console.log('使用wmts加载：' + url);
             var layerInfo = new WMTSLayerInfo({identifier: service_name});
             wmtsLayer.setActiveLayer(layerInfo);
             this.tree._map.addLayer(wmtsLayer);
