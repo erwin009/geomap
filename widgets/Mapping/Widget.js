@@ -76,11 +76,14 @@ function(declare,lang,arrayUtils, BaseWidget, MapManager,LayerStructure,  string
           console.log(layerStructureInstance.getLayerNodes());
           var templateLayers = arrayUtils.map(layerStructureInstance.getLayerNodes(), function (node) {
             node.getLayerObject().then(function (layer) {
-              console.log(layer.id);
+              console.log('lllll');
+              console.log(layer);
+              if(layer.name === "geomap_dist2 - 点标注"  || layer.name === "geomap_dist2 - 线标注" || layer.name === "geomap_dist2 - 面标注"){
+                layerObjects.push(layer);
+              }
               
-              layerObjects.push(layer);
               
-              if (layerObjects.length === (layerStructureInstance.getLayerNodes().length)) {
+              if (layerObjects.length === 3) {
                 var templatePicker = new TemplatePicker({
                   featureLayers: layerObjects,
                   grouping: false,
@@ -100,7 +103,7 @@ function(declare,lang,arrayUtils, BaseWidget, MapManager,LayerStructure,  string
                     }));
                   var fieldInfos;
                   console.log(layer);
-                  if(layer.name == "点标注"){
+                  if(layer.name == "geomap_dist2 - 点标注"){
                     fieldInfos = [
                        {'fieldName':'钻孔名称','label':'钻孔名称(*)'},
                        {'fieldName':'内容','label':'内容'},
@@ -113,7 +116,7 @@ function(declare,lang,arrayUtils, BaseWidget, MapManager,LayerStructure,  string
                        {'fieldName':'设计完钻时间','label':'设计完钻时间'},
                        {'fieldName':'符号','label':'符号'}
                     ]
-                  }else if(layer.name == "线标注"){
+                  }else if(layer.name == "geomap_dist2 - 线标注"){
                     fieldInfos = [
                        {'fieldName':'测线编号','label':'测线编号(*)'},
                        {'fieldName':'测线类型','label':'测线类型'},

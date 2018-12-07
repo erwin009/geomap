@@ -236,7 +236,7 @@
       "right": 0,
       "bottom": 0
     },
-    "itemId": "fd81654f3a1a46a1bb8d1f41a12e4eb8",
+    "itemId": "794f61aa0d2348a3a9c8cdf278869d1d",
     "mapOptions": {},
     "id": "map",
     "portalUrl": "http://10.90.128.167/arcgis",
@@ -273,7 +273,7 @@
         "index": 3,
         "id": "widgets_Mapping_Widget_47",
         "label": "在线制图"
-      },
+      },      
       {
         "uri": "widgets/LayerList/Widget",
         "version": "2.9",
